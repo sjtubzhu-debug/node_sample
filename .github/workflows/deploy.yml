@@ -5,60 +5,60 @@ on:
     branches: [ main ]
     tags:
       - 'v*'
-  workflow_dispatch:  # 允许手动触发
+  workflow_dispatch:  # Allow manual trigger
 
 jobs:
   deploy:
     name: Deploy Application
     runs-on: ubuntu-latest
-    
+
     steps:
-    - name: 检出代码
+    - name: Checkout code
       uses: actions/checkout@v4
-    
-    - name: 设置 Node.js
+
+    - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
         node-version: '20.x'
-    
-    - name: 安装前端依赖
+
+    - name: Install frontend dependencies
       run: |
         cd client
         npm ci
-    
-    - name: 构建前端
+
+    - name: Build frontend
       run: |
         cd client
         npm run build
-    
-    - name: 安装后端依赖
+
+    - name: Install backend dependencies
       run: |
         cd server
         npm ci --production
-    
-    - name: 创建部署包
+
+    - name: Create deployment package
       run: |
         mkdir -p deploy
         cp -r client/build deploy/client
         cp -r server deploy/server
         cp README.md deploy/
         tar -czf deploy.tar.gz deploy/
-    
-    - name: 上传部署包
+
+    - name: Upload deployment package
       uses: actions/upload-artifact@v4
       with:
         name: deployment-package
         path: deploy.tar.gz
         retention-days: 30
-    
-    - name: 部署通知
+
+    - name: Deployment notification
       run: |
-        echo "🚀 部署包已创建"
-        echo "📦 包含前端构建和后端代码"
-        echo "✅ 可以下载并部署到服务器"
-    
-    # 如果你使用 GitHub Pages 部署前端，可以取消下面的注释
-    # - name: 部署到 GitHub Pages
+        echo "🚀 Deployment package created"
+        echo "📦 Contains frontend build and backend code"
+        echo "✅ Ready to download and deploy to server"
+
+    # Uncomment below if you want to deploy frontend to GitHub Pages
+    # - name: Deploy to GitHub Pages
     #   uses: peaceiris/actions-gh-pages@v3
     #   with:
     #     github_token: ${{ secrets.GITHUB_TOKEN }}

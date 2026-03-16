@@ -8,56 +8,56 @@ jobs:
   review:
     name: Automated Code Review
     runs-on: ubuntu-latest
-    
+
     steps:
-    - name: 检出代码
+    - name: Checkout code
       uses: actions/checkout@v4
       with:
-        fetch-depth: 0  # 获取完整历史以便比较
-    
-    - name: 设置 Node.js
+        fetch-depth: 0  # Fetch full history for comparison
+
+    - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
         node-version: '20.x'
-    
-    - name: 检查提交信息格式
+
+    - name: Check commit message format
       run: |
-        echo "检查最近的提交信息..."
+        echo "Checking recent commit message..."
         git log --format=%B -n 1 HEAD | head -1
-    
-    - name: 检查文件变更
+
+    - name: Check file changes
       run: |
-        echo "变更的文件："
+        echo "Changed files:"
         git diff --name-only origin/main...HEAD
-    
-    - name: 检查代码行数变更
+
+    - name: Check code line changes
       run: |
-        echo "代码统计："
+        echo "Code statistics:"
         git diff --stat origin/main...HEAD
-    
-    - name: 检查是否有 console.log
+
+    - name: Check for console.log
       run: |
-        echo "检查是否有遗留的 console.log..."
-        git diff origin/main...HEAD | grep "^\+.*console\.log" || echo "✅ 未发现 console.log"
+        echo "Checking for leftover console.log..."
+        git diff origin/main...HEAD | grep "^\+.*console\.log" || echo "✅ No console.log found"
       continue-on-error: true
-    
-    - name: 检查是否有调试代码
+
+    - name: Check for debug code
       run: |
-        echo "检查是否有调试代码..."
-        git diff origin/main...HEAD | grep "^\+.*debugger" || echo "✅ 未发现 debugger"
+        echo "Checking for debug code..."
+        git diff origin/main...HEAD | grep "^\+.*debugger" || echo "✅ No debugger found"
       continue-on-error: true
-    
-    - name: PR 大小检查
+
+    - name: PR size check
       run: |
         CHANGED_FILES=$(git diff --name-only origin/main...HEAD | wc -l)
         CHANGED_LINES=$(git diff --stat origin/main...HEAD | tail -1 | grep -oE '[0-9]+ insertion' | grep -oE '[0-9]+' || echo 0)
-        echo "变更文件数: $CHANGED_FILES"
-        echo "新增行数: $CHANGED_LINES"
+        echo "Changed files: $CHANGED_FILES"
+        echo "Added lines: $CHANGED_LINES"
         if [ "$CHANGED_FILES" -gt 50 ]; then
-          echo "⚠️  警告: PR 包含超过 50 个文件，建议拆分"
+          echo "⚠️  Warning: PR contains more than 50 files, consider splitting"
         fi
         if [ "$CHANGED_LINES" -gt 1000 ]; then
-          echo "⚠️  警告: PR 包含超过 1000 行变更，建议拆分"
+          echo "⚠️  Warning: PR contains more than 1000 lines of changes, consider splitting"
         fi
       continue-on-error: true
 
