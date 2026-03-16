@@ -195,11 +195,32 @@ GitHub 会自动发送 CI 失败通知到你的邮箱。
 
 ## ✅ 总结
 
-**问题：** CI 缓存错误，因为 package-lock.json 被忽略
+**问题 1：** CI 缓存错误，因为 package-lock.json 被忽略
+- **解决：** 提交 package-lock.json 文件到仓库
+- **提交：** 49d2b4b
 
-**解决：** 提交 package-lock.json 文件到仓库
+**问题 2：** Frontend CI 报错 - package.json 和 package-lock.json 不同步
+- **错误信息：** `Missing: yaml@2.8.2 from lock file`
+- **原因：** 依赖版本冲突，lock 文件过期
+- **解决：** 删除 node_modules 和 lock 文件，重新运行 `npm install`
+- **提交：** b2223b8
 
 **结果：** CI 现在应该可以正常运行了！
 
 **下一步：** 访问 Actions 页面确认最新的工作流运行成功 ✅
+
+---
+
+## 🔄 修复历史
+
+### 第一次修复 (49d2b4b)
+- 添加 package-lock.json 到仓库
+- 修复缓存配置错误
+- Backend CI 通过 ✅
+
+### 第二次修复 (b2223b8)
+- 重新生成 client/package-lock.json
+- 修复 yaml 依赖冲突
+- 同步 package.json 和 lock 文件
+- Frontend CI 应该通过 ✅
 
