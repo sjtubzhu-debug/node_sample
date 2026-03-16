@@ -2,6 +2,8 @@
 
 <div align="center">
 
+![CI/CD](https://github.com/sjtubzhu-debug/node_sample/workflows/CI%2FCD%20Pipeline/badge.svg)
+![Deploy](https://github.com/sjtubzhu-debug/node_sample/workflows/Deploy%20to%20Production/badge.svg)
 ![React](https://img.shields.io/badge/React-18.x-61DAFB?style=flat-square&logo=react&logoColor=white)
 ![Ant Design](https://img.shields.io/badge/Ant%20Design-5.x-0170FE?style=flat-square&logo=ant-design&logoColor=white)
 ![Node.js](https://img.shields.io/badge/Node.js-Express-339933?style=flat-square&logo=node.js&logoColor=white)
@@ -251,6 +253,19 @@ REACT_APP_API_URL=http://localhost:5001
 - 📘 [PROJECT_GUIDE.md](./PROJECT_GUIDE.md) - 详细的项目指南和架构说明
 - 🚀 [QUICK_START.md](./QUICK_START.md) - 快速开始和常见问题
 - ✅ [GIT_CHECKLIST.md](./GIT_CHECKLIST.md) - Git 配置和提交检查清单
+- 🔄 [GITHUB_ACTIONS.md](./GITHUB_ACTIONS.md) - GitHub Actions CI/CD 配置说明
+
+## 🔄 CI/CD
+
+本项目配置了完整的 GitHub Actions 工作流：
+
+- ✅ **自动化测试** - 每次推送和 PR 都会运行测试
+- ✅ **多版本测试** - 在 Node.js 18.x 和 20.x 上测试
+- ✅ **代码质量检查** - ESLint、文件大小、TODO 扫描
+- ✅ **API 集成测试** - 自动测试所有 API 端点
+- ✅ **自动部署** - 推送到 main 分支自动构建部署包
+
+查看 [GITHUB_ACTIONS.md](./GITHUB_ACTIONS.md) 了解详细配置。
 
 ## 🤝 贡献
 
